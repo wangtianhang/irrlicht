@@ -39,7 +39,7 @@ static const char* const copyright = "Irrlicht Engine (c) 2002-2012 Nikolaus Geb
 #endif
 
 #ifdef _IRR_COMPILE_WITH_CONSOLE_DEVICE_
-#include "CIrrDeviceConsole.h"
+//#include "CIrrDeviceConsole.h"
 #endif
 
 namespace irr
