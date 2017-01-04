@@ -25,6 +25,8 @@ namespace video
 	public:
 		COpenGLESDriver(const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device);
 		bool initDriver(CIrrDeviceWin32* device);
+
+		bool changeRenderContext(const SExposedVideoData& videoData, void* device) {return false;}
 	};
 
 }

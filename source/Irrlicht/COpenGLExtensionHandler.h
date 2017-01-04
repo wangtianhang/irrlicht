@@ -21,9 +21,9 @@
 	#endif
 	#include <GL/gl.h>
 	#if defined(_IRR_OPENGL_USE_EXTPOINTER_)
-		#include "glext.h"
+		#include "opengl/glext.h"
 	#endif
-	#include "wglext.h"
+	#include "opengl/wglext.h"
 
 	#ifdef _MSC_VER
 		#pragma comment(lib, "OpenGL32.lib")
