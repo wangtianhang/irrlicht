@@ -1,0 +1,30 @@
+﻿生成启动时间为 2013/11/13 23:04:40。
+     1>项目“D:\irrlicht-1.8\examples\16.Quake3MapShader\Quake3MapShader_vc10.vcxproj”在节点 4 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug\16.Quake3MapShader.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>d:\irrlicht-1.8\include\keycodes.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>d:\irrlicht-1.8\include\keycodes.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>d:\irrlicht-1.8\include\keycodes.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\16.Quake3MapShader.exe.embed.manifest.res" Debug\16.Quake3MapShader_manifest.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\Win32-VisualStudio\16.Quake3MapShader.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\..\lib\Win32-visualstudio" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\16.Quake3MapShader.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\irrlicht-1.8\bin\Win32-VisualStudio\16.Quake3MapShader.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /IMPLIB:"..\..\bin\Win32-VisualStudio\16.Quake3MapShader.lib" /MACHINE:X86 Debug\16.Quake3MapShader.exe.embed.manifest.res
+         Debug\main.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\16.Quake3MapShader.exe.embed.manifest" /manifest Debug\16.Quake3MapShader.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\16.Quake3MapShader.exe.embed.manifest.res" Debug\16.Quake3MapShader_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\Win32-VisualStudio\16.Quake3MapShader.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\..\lib\Win32-visualstudio" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\16.Quake3MapShader.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\irrlicht-1.8\bin\Win32-VisualStudio\16.Quake3MapShader.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /IMPLIB:"..\..\bin\Win32-VisualStudio\16.Quake3MapShader.lib" /MACHINE:X86 Debug\16.Quake3MapShader.exe.embed.manifest.res
+         Debug\main.obj
+         Quake3MapShader_vc10.vcxproj -> D:\irrlicht-1.8\examples\16.Quake3MapShader\..\..\bin\Win32-VisualStudio\16.Quake3MapShader.exe
+       FinalizeBuildStatus:
+         正在删除文件“Debug\16.Quake3MapShader.unsuccessfulbuild”。
+         正在对“Debug\16.Quake3MapShader.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“D:\irrlicht-1.8\examples\16.Quake3MapShader\Quake3MapShader_vc10.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:02.55
