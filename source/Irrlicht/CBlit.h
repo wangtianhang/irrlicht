@@ -5,11 +5,12 @@
 #ifndef _C_BLIT_H_INCLUDED_
 #define _C_BLIT_H_INCLUDED_
 
-#include "SoftwareDriver2_helper.h"
+//#include "SoftwareDriver2_helper.h"
+
+#include "ImageHelper.h"
 
 namespace irr
 {
-
 	struct SBlitJob
 	{
 		AbsRectangle Dest;

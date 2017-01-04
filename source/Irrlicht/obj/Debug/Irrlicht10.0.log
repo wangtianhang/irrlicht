@@ -1,3 +1,1 @@
-﻿  CIrrDeviceWin32.cpp
-d:\irrlicht-1.8\include\Keycodes.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  Irrlicht10.0.vcxproj -> D:\irrlicht-1.8\source\Irrlicht\..\..\bin\Win32-VisualStudio\Irrlicht.dll
+﻿
