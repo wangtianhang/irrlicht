@@ -2,6 +2,9 @@
 #include "COpenGLESDriver.h"
 #include "CIrrDeviceWin32.h"
 
+#include "opengles/EGL/egl.h"
+#include "opengles/GLES2/gl2.h"
+
 namespace irr
 {
 namespace video

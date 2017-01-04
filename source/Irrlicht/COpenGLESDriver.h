@@ -9,6 +9,11 @@
 #include "CNullDriver.h"
 #include "IMaterialRendererServices.h"
 
+#ifdef _MSC_VER
+#pragma comment(lib, "opengles/x86_32/libEGL.lib")
+#pragma comment(lib, "opengles/x86_32/libGLESv2.lib")
+#endif
+
 namespace irr
 {
 	class CIrrDeviceWin32;

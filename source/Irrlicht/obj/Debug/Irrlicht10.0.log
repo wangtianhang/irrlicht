@@ -1,4 +1,3 @@
-﻿  COpenGLDriver.cpp
-  COpenGLSLMaterialRenderer.cpp
-  正在生成代码...
+﻿  COpenGLESDriver.cpp
+     正在创建库 ..\..\lib\Win32-visualstudio\Irrlicht.lib 和对象 ..\..\lib\Win32-visualstudio\Irrlicht.exp
   Irrlicht10.0.vcxproj -> F:\GitHub\irrlicht\irrlicht\source\Irrlicht\..\..\bin\Win32-VisualStudio\Irrlicht.dll
