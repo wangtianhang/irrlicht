@@ -98,8 +98,8 @@ namespace irr
 #endif
 
 #ifdef _IRR_COMPILE_WITH_CONSOLE_DEVICE_
-		if (params.DeviceType == EIDT_CONSOLE || (!dev && params.DeviceType == EIDT_BEST))
-			dev = new CIrrDeviceConsole(params);
+// 		if (params.DeviceType == EIDT_CONSOLE || (!dev && params.DeviceType == EIDT_BEST))
+// 			dev = new CIrrDeviceConsole(params);
 #endif
 
 		if (dev && !dev->getVideoDriver() && params.DriverType != video::EDT_NULL)

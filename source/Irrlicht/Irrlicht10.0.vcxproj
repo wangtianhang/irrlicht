@@ -1148,13 +1148,8 @@
     <ClInclude Include="aesGladman\sha2.h" />
     <ClInclude Include="bzip2\bzlib.h" />
     <ClInclude Include="bzip2\bzlib_private.h" />
-    <ClInclude Include="CIrrDeviceConsole.h" />
-    <ClInclude Include="CIrrDeviceFB.h" />
-    <ClInclude Include="CIrrDeviceLinux.h" />
-    <ClInclude Include="CIrrDeviceSDL.h" />
     <ClInclude Include="CIrrDeviceStub.h" />
     <ClInclude Include="CIrrDeviceWin32.h" />
-    <ClInclude Include="CIrrDeviceWinCE.h" />
     <ClInclude Include="CAttributeImpl.h" />
     <ClInclude Include="CAttributes.h" />
     <ClInclude Include="CFileList.h" />
@@ -1415,13 +1410,8 @@
     <ClCompile Include="bzip2\decompress.c" />
     <ClCompile Include="bzip2\huffman.c" />
     <ClCompile Include="bzip2\randtable.c" />
-    <ClCompile Include="CIrrDeviceConsole.cpp" />
-    <ClCompile Include="CIrrDeviceFB.cpp" />
-    <ClCompile Include="CIrrDeviceLinux.cpp" />
-    <ClCompile Include="CIrrDeviceSDL.cpp" />
     <ClCompile Include="CIrrDeviceStub.cpp" />
     <ClCompile Include="CIrrDeviceWin32.cpp" />
-    <ClCompile Include="CIrrDeviceWinCE.cpp" />
     <ClCompile Include="CAttributes.cpp" />
     <ClCompile Include="CFileList.cpp" />
     <ClCompile Include="CFileSystem.cpp" />

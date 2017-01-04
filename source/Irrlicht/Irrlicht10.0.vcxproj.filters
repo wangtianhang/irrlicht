@@ -1026,25 +1026,10 @@
     <ClInclude Include="bzip2\bzlib_private.h">
       <Filter>Irrlicht\irr\extern\bzip2</Filter>
     </ClInclude>
-    <ClInclude Include="CIrrDeviceConsole.h">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClInclude>
-    <ClInclude Include="CIrrDeviceFB.h">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClInclude>
-    <ClInclude Include="CIrrDeviceLinux.h">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClInclude>
-    <ClInclude Include="CIrrDeviceSDL.h">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClInclude>
     <ClInclude Include="CIrrDeviceStub.h">
       <Filter>Irrlicht\irr\device</Filter>
     </ClInclude>
     <ClInclude Include="CIrrDeviceWin32.h">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClInclude>
-    <ClInclude Include="CIrrDeviceWinCE.h">
       <Filter>Irrlicht\irr\device</Filter>
     </ClInclude>
     <ClInclude Include="CAttributeImpl.h">
@@ -1838,25 +1823,10 @@
     <ClCompile Include="bzip2\randtable.c">
       <Filter>Irrlicht\irr\extern\bzip2</Filter>
     </ClCompile>
-    <ClCompile Include="CIrrDeviceConsole.cpp">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClCompile>
-    <ClCompile Include="CIrrDeviceFB.cpp">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClCompile>
-    <ClCompile Include="CIrrDeviceLinux.cpp">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClCompile>
-    <ClCompile Include="CIrrDeviceSDL.cpp">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClCompile>
     <ClCompile Include="CIrrDeviceStub.cpp">
       <Filter>Irrlicht\irr\device</Filter>
     </ClCompile>
     <ClCompile Include="CIrrDeviceWin32.cpp">
-      <Filter>Irrlicht\irr\device</Filter>
-    </ClCompile>
-    <ClCompile Include="CIrrDeviceWinCE.cpp">
       <Filter>Irrlicht\irr\device</Filter>
     </ClCompile>
     <ClCompile Include="CAttributes.cpp">
