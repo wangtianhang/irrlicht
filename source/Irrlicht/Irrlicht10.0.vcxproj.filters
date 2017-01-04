@@ -103,6 +103,9 @@
     <Filter Include="Irrlicht\gui">
       <UniqueIdentifier>{da421793-4674-481c-be46-f7a44e78aee5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Irrlicht\video\OpenGLES">
+      <UniqueIdentifier>{3770f5cc-e8e7-427e-9afa-32b2d7e00cc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\IEventReceiver.h">
@@ -1204,6 +1207,9 @@
     <ClInclude Include="ImageHelper.h">
       <Filter>Irrlicht\video\Null</Filter>
     </ClInclude>
+    <ClInclude Include="COpenGLESDriver.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\changes.txt">
@@ -1972,6 +1978,9 @@
     </ClCompile>
     <ClCompile Include="CCgMaterialRenderer.cpp">
       <Filter>Irrlicht\video</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESDriver.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

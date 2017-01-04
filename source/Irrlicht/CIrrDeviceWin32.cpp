@@ -50,6 +50,9 @@ namespace irr
 		IVideoDriver* createOpenGLDriver(const irr::SIrrlichtCreationParameters& params,
 			io::IFileSystem* io, CIrrDeviceWin32* device);
 		#endif
+
+		IVideoDriver* createOpenGLESDriver(const irr::SIrrlichtCreationParameters& params,
+			io::IFileSystem* io, CIrrDeviceWin32* device);
 	}
 } // end namespace irr
 
@@ -1154,6 +1157,16 @@ void CIrrDeviceWin32::createDriver()
 	case video::EDT_NULL:
 		// create null driver
 		VideoDriver = video::createNullDriver(FileSystem, CreationParams.WindowSize);
+		break;
+
+	case video::EDT_OPENGL_ES:
+
+		VideoDriver = video::createOpenGLESDriver(CreationParams, FileSystem, this);
+		if (!VideoDriver)
+		{
+			os::Printer::log("Could not create OpenGLES driver.", ELL_ERROR);
+		}
+		
 		break;
 
 	default:
