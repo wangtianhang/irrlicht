@@ -1100,7 +1100,7 @@ void CIrrDeviceWin32::createDriver()
 		break;
 
 	case video::EDT_DIRECT3D9:
-		#ifdef _IRR_COMPLE_WITH_DIRECT3D_9_
+		#ifdef _IRR_COMPILE_WITH_DIRECT3D_9_
 
 		VideoDriver = video::createDirectX9Driver(CreationParams, FileSystem, HWnd);
 
