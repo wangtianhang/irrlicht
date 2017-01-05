@@ -39,6 +39,9 @@ namespace video
 		COpenGLESDriver(const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device);
 		bool initDriver(CIrrDeviceWin32* device);
 
+		//! destructor
+		virtual ~COpenGLESDriver();
+
 		//! clears the zbuffer
 		virtual bool beginScene(bool backBuffer=true, bool zBuffer=true,
 			SColor color=SColor(255,0,0,0),
@@ -48,13 +51,13 @@ namespace video
 		//! presents the rendered scene on the screen, returns false if failed
 		virtual bool endScene();
 
-		EGLDisplay			m_eglDisplay;
-		EGLSurface			m_eglSurface;
-
 		SIrrlichtCreationParameters m_Params;
 		HDC m_HDc; // Private GDI Device Context
 		HWND m_Window;
 		E_DEVICE_TYPE m_DeviceType;
+
+		EGLDisplay			m_eglDisplay;
+		EGLSurface			m_eglSurface;
 	};
 
 }

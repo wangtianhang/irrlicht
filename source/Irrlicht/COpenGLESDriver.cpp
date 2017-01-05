@@ -24,16 +24,7 @@ IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,
 }
 
 
-COpenGLESDriver::COpenGLESDriver( const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device )
-	: CNullDriver(io, params.WindowSize), 
-	m_Params(params), 
-	m_DeviceType(EIDT_WIN32),
-	m_Window(static_cast<HWND>(params.WindowId))
-{
-#ifdef _DEBUG
-	setDebugName("COpenGLDriver");
-#endif
-}
+
 
 /*!*********************************************************************************************************************
 \param		deviceContext               The device context used by the application
@@ -217,6 +208,44 @@ bool setupEGLContext(EGLDisplay eglDisplay, EGLConfig eglConfig, EGLSurface eglS
 	return true;
 }
 
+/*!*********************************************************************************************************************
+\param			eglDisplay  The EGLDisplay used by the application
+\brief	Releases all resources allocated by EGL
+***********************************************************************************************************************/
+void releaseEGLState(EGLDisplay eglDisplay)
+{
+	// To release the resources in the context, first the context has to be released from its binding with the current thread.
+	eglMakeCurrent(eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+
+	// Terminate the display, and any resources associated with it (including the EGLContext)
+	eglTerminate(eglDisplay);
+}
+
+/*!*********************************************************************************************************************
+\param			nativeWindow                The native window to release
+\param			deviceContext               The native display to release
+\brief	Releases all resources allocated by the windowing system
+***********************************************************************************************************************/
+void releaseWindowAndDisplay(HWND nativeWindow, HDC deviceContext)
+{
+	// Release the device context.
+	if (deviceContext) {	ReleaseDC(nativeWindow, deviceContext);	}
+
+	// Destroy the window
+	//if (nativeWindow) {	DestroyWindow(nativeWindow); }
+}
+
+COpenGLESDriver::COpenGLESDriver( const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device )
+	: CNullDriver(io, params.WindowSize), 
+	m_Params(params), 
+	m_DeviceType(EIDT_WIN32),
+	m_Window(static_cast<HWND>(params.WindowId))
+{
+#ifdef _DEBUG
+	setDebugName("COpenGLDriver");
+#endif
+}
+
 bool COpenGLESDriver::initDriver( CIrrDeviceWin32* device )
 {
 	m_HDc=GetDC(m_Window);
@@ -255,6 +284,24 @@ bool COpenGLESDriver::initDriver( CIrrDeviceWin32* device )
 
 	return true;
 }
+
+
+COpenGLESDriver::~COpenGLESDriver()
+{
+	deleteMaterialRenders();
+
+	// I get a blue screen on my laptop, when I do not delete the
+	// textures manually before releasing the dc. Oh how I love this.
+	deleteAllTextures();
+	removeAllOcclusionQueries();
+	removeAllHardwareBuffers();
+
+	// Release the EGL State
+	releaseEGLState(m_eglDisplay);
+	// Release the windowing system resources
+	releaseWindowAndDisplay(m_Window, m_HDc);
+}
+
 
 bool COpenGLESDriver::beginScene( bool backBuffer/*=true*/, bool zBuffer/*=true*/, SColor color/*=SColor(255,0,0,0)*/, const SExposedVideoData& videoData/*=SExposedVideoData()*/, core::rect<s32>* sourceRect/*=0*/ )
 {
