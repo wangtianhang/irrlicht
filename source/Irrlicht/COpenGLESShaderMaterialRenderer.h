@@ -1,0 +1,5 @@
+#ifndef _COpenGLESShaderMaterialRenderer_
+#define _COpenGLESShaderMaterialRenderer_
+
+
+#endif
