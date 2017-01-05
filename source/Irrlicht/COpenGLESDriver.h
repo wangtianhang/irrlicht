@@ -51,6 +51,11 @@ namespace video
 		//! presents the rendered scene on the screen, returns false if failed
 		virtual bool endScene();
 
+	private:
+		bool genericDriverInit();
+
+		void createMaterialRenderers();
+
 		SIrrlichtCreationParameters m_Params;
 		HDC m_HDc; // Private GDI Device Context
 		HWND m_Window;

@@ -12,7 +12,7 @@
 #include "COpenGLMaterialRenderer.h"
 #include "COpenGLShaderMaterialRenderer.h"
 #include "COpenGLSLMaterialRenderer.h"
-#include "COpenGLCgMaterialRenderer.h"
+//#include "COpenGLCgMaterialRenderer.h"
 #include "COpenGLNormalMapRenderer.h"
 #include "COpenGLParallaxMapRenderer.h"
 #include "os.h"
