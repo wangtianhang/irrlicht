@@ -48,10 +48,13 @@ namespace video
 		//! presents the rendered scene on the screen, returns false if failed
 		virtual bool endScene();
 
-		SIrrlichtCreationParameters Params;
-		HDC HDc; // Private GDI Device Context
-		HWND Window;
-		E_DEVICE_TYPE DeviceType;
+		EGLDisplay			m_eglDisplay;
+		EGLSurface			m_eglSurface;
+
+		SIrrlichtCreationParameters m_Params;
+		HDC m_HDc; // Private GDI Device Context
+		HWND m_Window;
+		E_DEVICE_TYPE m_DeviceType;
 	};
 
 }
