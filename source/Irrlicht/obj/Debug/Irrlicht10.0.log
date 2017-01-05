@@ -1,6 +1,2 @@
-﻿  COpenGLESDriver.cpp
-f:\github\irrlicht\irrlicht\source\irrlicht\CIrrDeviceWin32.h(15): warning C4005: “WIN32_LEAN_AND_MEAN”: 宏重定义
-          f:\github\irrlicht\irrlicht\source\irrlicht\opengles/EGL/eglplatform.h(72) : 参见“WIN32_LEAN_AND_MEAN”的前一个定义
-  COpenGLDriver.cpp
-  正在生成代码...
+﻿  COpenGLDriver.cpp
   Irrlicht10.0.vcxproj -> F:\GitHub\irrlicht\irrlicht\source\Irrlicht\..\..\bin\Win32-VisualStudio\Irrlicht.dll

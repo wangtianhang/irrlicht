@@ -3468,56 +3468,6 @@ void COpenGLDriver::drawStencilShadowVolume(const core::array<core::vector3df>& 
 
 	// The first parts are not correctly working, yet.
 #if 0
-#ifdef GL_EXT_stencil_two_side
-	if (FeatureAvailable[IRR_EXT_stencil_two_side])
-	{
-		glEnable(GL_STENCIL_TEST_TWO_SIDE_EXT);
-		glDisable(GL_CULL_FACE);
-		if (zfail)
-		{
-			extGlActiveStencilFace(GL_BACK);
-			glStencilOp(GL_KEEP, incr, GL_KEEP);
-			glStencilMask(~0);
-			glStencilFunc(GL_ALWAYS, 0, ~0);
-
-			extGlActiveStencilFace(GL_FRONT);
-			glStencilOp(GL_KEEP, decr, GL_KEEP);
-		}
-		else // zpass
-		{
-			extGlActiveStencilFace(GL_BACK);
-			glStencilOp(GL_KEEP, GL_KEEP, decr);
-			glStencilMask(~0);
-			glStencilFunc(GL_ALWAYS, 0, ~0);
-
-			extGlActiveStencilFace(GL_FRONT);
-			glStencilOp(GL_KEEP, GL_KEEP, incr);
-		}
-		glStencilMask(~0);
-		glStencilFunc(GL_ALWAYS, 0, ~0);
-		glDrawArrays(GL_TRIANGLES,0,count);
-		glDisable(GL_STENCIL_TEST_TWO_SIDE_EXT);
-	}
-	else
-#endif
-	if (FeatureAvailable[IRR_ATI_separate_stencil])
-	{
-		glDisable(GL_CULL_FACE);
-		if (zfail)
-		{
-			extGlStencilOpSeparate(GL_BACK, GL_KEEP, incr, GL_KEEP);
-			extGlStencilOpSeparate(GL_FRONT, GL_KEEP, decr, GL_KEEP);
-		}
-		else // zpass
-		{
-			extGlStencilOpSeparate(GL_BACK, GL_KEEP, GL_KEEP, decr);
-			extGlStencilOpSeparate(GL_FRONT, GL_KEEP, GL_KEEP, incr);
-		}
-		extGlStencilFuncSeparate(GL_ALWAYS, GL_ALWAYS, 0, ~0);
-		glStencilMask(~0);
-		glDrawArrays(GL_TRIANGLES,0,count);
-	}
-	else
 #endif
 	{
 		glEnable(GL_CULL_FACE);
