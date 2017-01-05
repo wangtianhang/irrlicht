@@ -1,3 +1,4 @@
 ﻿  COpenGLESDriver.cpp
-     正在创建库 ..\..\lib\Win32-visualstudio\Irrlicht.lib 和对象 ..\..\lib\Win32-visualstudio\Irrlicht.exp
+f:\github\irrlicht\irrlicht\source\irrlicht\CIrrDeviceWin32.h(15): warning C4005: “WIN32_LEAN_AND_MEAN”: 宏重定义
+          f:\github\irrlicht\irrlicht\source\irrlicht\opengles/EGL/eglplatform.h(72) : 参见“WIN32_LEAN_AND_MEAN”的前一个定义
   Irrlicht10.0.vcxproj -> F:\GitHub\irrlicht\irrlicht\source\Irrlicht\..\..\bin\Win32-VisualStudio\Irrlicht.dll
