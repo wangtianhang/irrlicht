@@ -2,7 +2,7 @@
 #include "COpenGLESDriver.h"
 #include "CIrrDeviceWin32.h"
 
-
+#include "COpenGLESMaterialRenderer.h"
 
 #include "os.h"
 

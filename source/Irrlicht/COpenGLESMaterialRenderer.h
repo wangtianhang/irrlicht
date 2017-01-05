@@ -34,7 +34,7 @@ namespace video
 
 		COpenGLESMaterialRenderer_SOLID(video::COpenGLESDriver* d)
 			: COpenGLESMaterialRenderer(d) {}
-	}
+	};
 
 	//! Generic Texture Blend
 	class COpenGLESMaterialRenderer_ONETEXTURE_BLEND : public COpenGLESMaterialRenderer
@@ -43,7 +43,7 @@ namespace video
 
 		COpenGLESMaterialRenderer_ONETEXTURE_BLEND(video::COpenGLESDriver* d)
 			: COpenGLESMaterialRenderer(d) {}
-	}
+	};
 
 	//! Solid 2 layer material renderer
 	class COpenGLESMaterialRenderer_SOLID_2_LAYER : public COpenGLESMaterialRenderer
@@ -52,7 +52,7 @@ namespace video
 
 		COpenGLESMaterialRenderer_SOLID_2_LAYER(video::COpenGLESDriver* d)
 			: COpenGLESMaterialRenderer(d) {}
-	}
+	};
 
 	//! Transparent add color material renderer
 	class COpenGLESMaterialRenderer_TRANSPARENT_ADD_COLOR : public COpenGLESMaterialRenderer
@@ -61,7 +61,7 @@ namespace video
 
 		COpenGLESMaterialRenderer_TRANSPARENT_ADD_COLOR(video::COpenGLESDriver* d)
 			: COpenGLESMaterialRenderer(d) {}
-	}
+	};
 }
 }
 

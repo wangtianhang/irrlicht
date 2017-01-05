@@ -1204,6 +1204,21 @@
     <ClInclude Include="COpenGLESMaterialRenderer.h">
       <Filter>Irrlicht\video\OpenGLES</Filter>
     </ClInclude>
+    <ClInclude Include="COpenGLESNormalMapRender.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="COpenGLESParallaxMapRenderer.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="COpenGLESShaderMaterialRenderer.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="COpenGLESGLSLMaterialRenderer.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="COpenGLESTexture.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\changes.txt">
@@ -1971,6 +1986,21 @@
       <Filter>Irrlicht\video</Filter>
     </ClCompile>
     <ClCompile Include="COpenGLESDriver.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESNormalMapRender.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESParallaxMapRenderer.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESShaderMaterialRenderer.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESGLSLMaterialRenderer.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESTexture.cpp">
       <Filter>Irrlicht\video\OpenGLES</Filter>
     </ClCompile>
   </ItemGroup>
