@@ -384,6 +384,8 @@ bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture
 {
 	if (stage >= m_MaxSupportedTextures)
 		return false;
+
+	return false;
 }
 
 IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,

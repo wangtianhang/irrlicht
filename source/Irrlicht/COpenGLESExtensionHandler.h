@@ -24,11 +24,29 @@ namespace irr
 	class COpenGLESExtensionHandler
 	{
 	public:
+		enum EOpenGLESFeatures
+		{
+			None,
+			IRR_OpenGLES_Feature_Count,
+		};
+
 		// constructor
 		COpenGLESExtensionHandler();
 
 		// deferred initialization
 		void initExtensions(bool stencilBuffer);
+
+		//! queries the features of the driver, returns true if feature is available
+		bool queryFeature(E_VIDEO_DRIVER_FEATURE feature) const;
+
+		//! queries the features of the driver, returns true if feature is available
+		bool queryOpenGLESFeature(EOpenGLESFeatures feature) const
+		{
+			return m_FeatureAvailable[feature];
+		}
+
+		// the global feature array
+		bool m_FeatureAvailable[IRR_OpenGLES_Feature_Count];
 
 		//! OpenGL version as Integer: 100*Major+Minor, i.e. 2.1 becomes 201
 		u16 m_Version;

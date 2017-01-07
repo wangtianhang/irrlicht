@@ -36,6 +36,11 @@ namespace irr
 
 		}
 
+		bool COpenGLESExtensionHandler::queryFeature(E_VIDEO_DRIVER_FEATURE feature) const
+		{
+			return true;
+		}
+
 	}
 }
 

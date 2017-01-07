@@ -48,6 +48,11 @@ namespace video
 		//! Returns whether setting was a success or not.
 		bool setActiveTexture(u32 stage, const video::ITexture* texture);
 
+		virtual bool queryFeature(E_VIDEO_DRIVER_FEATURE feature) const
+		{
+			return FeatureEnabled[feature] && COpenGLESExtensionHandler::queryFeature(feature);
+		}
+
 	private:
 		bool genericDriverInit();
 
