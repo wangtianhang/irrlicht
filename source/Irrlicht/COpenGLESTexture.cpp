@@ -48,6 +48,19 @@ namespace irr
 			}
 		}
 
+		COpenGLESTexture::COpenGLESTexture(const io::path& name, COpenGLDriver* driver)
+			: ITexture(name), 
+			m_Driver(driver),
+			m_KeepImage(true),
+			m_InternalFormat(GL_RGBA),
+			m_PixelFormat(GL_RGBA),
+			m_PixelType(GL_UNSIGNED_BYTE)
+		{
+#ifdef _DEBUG
+			setDebugName("COpenGLTexture");
+#endif
+		}
+
 		COpenGLESTexture::~COpenGLESTexture()
 		{
 			if (m_TextureName)

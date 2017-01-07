@@ -24,7 +24,10 @@ namespace irr
 			//! destructor
 			virtual ~COpenGLESTexture();
 
-		private:
+		protected:
+			//! protected constructor with basic setup, no GL texture name created, for derived classes
+			COpenGLESTexture(const io::path& name, COpenGLDriver* driver);
+
 			//! get the desired color format based on texture creation flags and the input format.
 			ECOLOR_FORMAT getBestColorFormat(ECOLOR_FORMAT format);
 
