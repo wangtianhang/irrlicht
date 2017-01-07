@@ -388,7 +388,8 @@ bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture
 	if (CurrentTexture[stage]==texture)
 		return true;
 
-	glActiveTexture(stage);
+	if(MultiTextureExtension)
+		glActiveTexture(GL_TEXTURE0 + stage);
 
 	CurrentTexture.set(stage,texture);
 
@@ -399,7 +400,7 @@ bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture
 	}
 	else
 	{
-		if (texture->getDriverType() != EDT_OPENGL)
+		if (texture->getDriverType() != EDT_OPENGL_ES)
 		{
 			glDisable(GL_TEXTURE_2D);
 			CurrentTexture.set(stage, 0);
@@ -412,8 +413,26 @@ bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture
 			static_cast<const COpenGLESTexture*>(texture)->getOpenGLTextureName());
 	}
 	return true;
+}
 
-	return false;
+bool COpenGLESDriver::testGLError()
+{
+	GLenum g = glGetError();
+	switch (g)
+	{
+	case GL_NO_ERROR:
+		return false;
+	case GL_INVALID_ENUM:
+		os::Printer::log("GL_INVALID_ENUM", ELL_ERROR); break;
+	case GL_INVALID_VALUE:
+		os::Printer::log("GL_INVALID_VALUE", ELL_ERROR); break;
+	case GL_INVALID_OPERATION:
+		os::Printer::log("GL_INVALID_OPERATION", ELL_ERROR); break;
+	case GL_OUT_OF_MEMORY:
+		os::Printer::log("GL_OUT_OF_MEMORY", ELL_ERROR); break;
+	};
+	//	_IRR_DEBUG_BREAK_IF(true);
+	return true;
 }
 
 IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,

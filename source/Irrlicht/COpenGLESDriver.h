@@ -53,6 +53,10 @@ namespace video
 		//! Returns whether setting was a success or not.
 		bool setActiveTexture(u32 stage, const video::ITexture* texture);
 
+		//! checks if an OpenGL error has happend and prints it
+		//! for performance reasons only available in debug mode
+		bool testGLError();
+
 	private:
 		bool genericDriverInit();
 

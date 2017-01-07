@@ -19,7 +19,8 @@ namespace irr
 			KeepImage(true),
 			//m_InternalFormat(GL_RGBA),
 			PixelFormat(GL_RGBA),
-			PixelType(GL_UNSIGNED_BYTE)
+			PixelType(GL_UNSIGNED_BYTE),
+			MipmapLegacyMode(false)
 		{
 #ifdef _DEBUG
 			setDebugName("COpenGLTexture");
@@ -69,10 +70,7 @@ namespace irr
 				Image->drop();
 		}
 
-		GLuint COpenGLESTexture::getOpenGLTextureName() const
-		{
-			return TextureName;
-		}
+
 
 		ECOLOR_FORMAT COpenGLESTexture::getBestColorFormat(ECOLOR_FORMAT format)
 		{
@@ -116,13 +114,13 @@ namespace irr
 			return destFormat;
 		}
 
-		void COpenGLESTexture::getOpenGLFormatAndParametersFromColorFormat(ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type)
+		GLint COpenGLESTexture::getOpenGLFormatAndParametersFromColorFormat(ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type)
 		{
 			// default
 			filtering = GL_LINEAR;
 			colorformat = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
-			//GLenum internalformat = GL_RGBA;
+			GLenum internalformat = GL_RGBA;
 
 			switch(format)
 			{
@@ -146,7 +144,7 @@ namespace irr
 					colorformat=GL_RGBA;
 					if (Driver->Version > 101)
 						type=GL_UNSIGNED_INT;
-					//internalformat =  GL_RGBA;
+					internalformat =  GL_RGBA;
 					break;
 				}
 
@@ -190,11 +188,11 @@ namespace irr
 			default:
 				{
 					os::Printer::log("Unsupported texture format", ELL_ERROR);
-					//internalformat =  GL_RGBA;
+					internalformat =  GL_RGBA;
  				}
 			}
 
-			//return internalformat;
+			return internalformat;
 		}
 
 		void COpenGLESTexture::getImageValues( IImage* image )
@@ -240,12 +238,103 @@ namespace irr
 			}
 
 			// get correct opengl color data values
-			//GLenum oldInternalFormat = m_InternalFormat;
+			GLenum oldInternalFormat = InternalFormat;
 			GLint filtering;
-			getOpenGLFormatAndParametersFromColorFormat(ColorFormat, filtering, PixelFormat, PixelType);
+			InternalFormat = getOpenGLFormatAndParametersFromColorFormat(ColorFormat, filtering, PixelFormat, PixelType);
+			if(!newTexture)
+			{
+				InternalFormat = oldInternalFormat;
+			}
 
-			
+			Driver->setActiveTexture(0, this);
+			if (Driver->testGLError())
+				os::Printer::log("Could not bind Texture", ELL_ERROR);
+
+			// mipmap handling for main texture
+			if (!level && newTexture)
+			{
+				{
+					// Either generate manually due to missing capability
+					// or use predefined mipmap data
+					AutomaticMipmapUpdate=false;
+					regenerateMipMapLevels(mipmapData);
+				}
+				if (HasMipMaps) // might have changed in regenerateMipMapLevels
+				{
+					// enable bilinear mipmap filter
+					glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
+					glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				}
+				else
+				{
+					// enable bilinear filter without mipmaps
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				}
+			}
+
+			// now get image data and upload to GPU
+			void* source = image->lock();
+			if (newTexture)
+				glTexImage2D(GL_TEXTURE_2D, level, InternalFormat, image->getDimension().Width,
+				image->getDimension().Height, 0, PixelFormat, PixelType, source);
+			else
+				glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, image->getDimension().Width,
+				image->getDimension().Height, PixelFormat, PixelType, source);
+			image->unlock();
+
+			if (!MipmapLegacyMode && AutomaticMipmapUpdate)
+			{
+				glEnable(GL_TEXTURE_2D);
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+
+			if (Driver->testGLError())
+				os::Printer::log("Could not glTexImage2D", ELL_ERROR);
 		}
 
+		void COpenGLESTexture::regenerateMipMapLevels(void* mipmapData/*=0*/)
+		{
+			if (AutomaticMipmapUpdate || !HasMipMaps || !Image)
+				return;
+			if ((Image->getDimension().Width==1) && (Image->getDimension().Height==1))
+				return;
+
+			// Manually create mipmaps or use prepared version
+			u32 width=Image->getDimension().Width;
+			u32 height=Image->getDimension().Height;
+			u32 i=0;
+			u8* target = static_cast<u8*>(mipmapData);
+			do
+			{
+				if (width>1)
+					width>>=1;
+				if (height>1)
+					height>>=1;
+				++i;
+				if (!target)
+					target = new u8[width*height*Image->getBytesPerPixel()];
+				// create scaled version if no mipdata available
+				if (!mipmapData)
+					Image->copyToScaling(target, width, height, Image->getColorFormat());
+				glTexImage2D(GL_TEXTURE_2D, i, InternalFormat, width, height,
+					0, PixelFormat, PixelType, target);
+				// get next prepared mipmap data if available
+				if (mipmapData)
+				{
+					mipmapData = static_cast<u8*>(mipmapData)+width*height*Image->getBytesPerPixel();
+					target = static_cast<u8*>(mipmapData);
+				}
+			}
+			while (width!=1 || height!=1);
+			// cleanup
+			if (!mipmapData)
+				delete [] target;
+		}
+
+		GLuint COpenGLESTexture::getOpenGLTextureName() const
+		{
+			return TextureName;
+		}
 	}
 }

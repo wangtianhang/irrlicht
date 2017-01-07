@@ -1,16 +1,10 @@
-﻿生成启动时间为 2017/1/7 21:03:29。
+﻿生成启动时间为 2017/1/7 21:44:10。
      1>项目“F:\gitHub\irrlicht\irrlicht\source\Irrlicht\Irrlicht10.0.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“obj\Debug\Irrlicht.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /Izlib /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D IRRLICHT_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _ITERATOR_DEBUG_LEVEL=0 /Gm- /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt COpenGLDriver.cpp COpenGLESExtensionHandler.cpp COpenGLExtensionHandler.cpp COpenGLNormalMapRenderer.cpp COpenGLParallaxMapRenderer.cpp COpenGLSLMaterialRenderer.cpp COpenGLShaderMaterialRenderer.cpp COpenGLTexture.cpp
-         COpenGLDriver.cpp
-         COpenGLESExtensionHandler.cpp
-         COpenGLExtensionHandler.cpp
-         COpenGLNormalMapRenderer.cpp
-         COpenGLParallaxMapRenderer.cpp
-         COpenGLSLMaterialRenderer.cpp
-         COpenGLShaderMaterialRenderer.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /Izlib /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D IRRLICHT_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _ITERATOR_DEBUG_LEVEL=0 /Gm- /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt COpenGLESTexture.cpp COpenGLTexture.cpp
+         COpenGLESTexture.cpp
          COpenGLTexture.cpp
          正在生成代码...
          所有输出均为最新。
@@ -293,4 +287,4 @@
 
 生成成功。
 
-已用时间 00:00:03.79
+已用时间 00:00:01.57

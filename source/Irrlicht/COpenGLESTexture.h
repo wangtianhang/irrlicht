@@ -15,6 +15,7 @@ namespace irr
 	namespace video
 	{
 		class COpenGLESDriver;
+
 		class COpenGLESTexture : public ITexture
 		{
 		public:
@@ -27,6 +28,11 @@ namespace irr
 			//! return open gl texture name
 			GLuint getOpenGLTextureName() const;
 
+			//! Regenerates the mip map levels of the texture.
+			/** Useful after locking and modifying the texture
+			\param mipmapData Pointer to raw mipmap data, including all necessary mip levels, in the same format as the main texture image. If not set the mipmaps are derived from the main image. */
+			virtual void regenerateMipMapLevels(void* mipmapData=0);
+
 		protected:
 			//! protected constructor with basic setup, no GL texture name created, for derived classes
 			COpenGLESTexture(const io::path& name, COpenGLESDriver* driver);
@@ -35,7 +41,7 @@ namespace irr
 			ECOLOR_FORMAT getBestColorFormat(ECOLOR_FORMAT format);
 
 			//! Get the OpenGL color format parameters based on the given Irrlicht color format
-			void getOpenGLFormatAndParametersFromColorFormat(
+			GLint getOpenGLFormatAndParametersFromColorFormat(
 				ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type);
 
 			//! get important numbers of the image and hw texture
@@ -48,22 +54,22 @@ namespace irr
 			void uploadTexture(bool newTexture=false, void* mipmapData=0, u32 mipLevel=0);
 
 
-
-			COpenGLESDriver* Driver;
-			bool HasMipMaps;
-
 			core::dimension2d<u32> ImageSize;
 			core::dimension2d<u32> TextureSize;
 			ECOLOR_FORMAT ColorFormat;
-
-			GLuint TextureName;
+			COpenGLESDriver* Driver;
 			IImage* Image;
 			IImage* MipImage;
-			bool KeepImage;
 
-			//GLint m_InternalFormat;
+			GLuint TextureName;
+			GLint InternalFormat;
 			GLenum PixelFormat;
 			GLenum PixelType;
+
+			bool HasMipMaps;
+			bool MipmapLegacyMode;
+			bool AutomaticMipmapUpdate;
+			bool KeepImage;
 		};
 	}
 }
