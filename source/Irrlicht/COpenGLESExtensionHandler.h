@@ -42,20 +42,56 @@ namespace irr
 		//! queries the features of the driver, returns true if feature is available
 		bool queryOpenGLESFeature(EOpenGLESFeatures feature) const
 		{
-			return FeatureAvailable[feature];
+			//return FeatureAvailable[feature];
+			return true;
 		}
 
-		// the global feature array
-		bool FeatureAvailable[IRR_OpenGLES_Feature_Count];
+		// Some variables for properties
+		bool StencilBuffer;
+		bool MultiTextureExtension;
+		bool TextureCompressionExtension;
+
+		// Some non-boolean properties
+		//! Maxmimum texture layers supported by the fixed pipeline
+		u8 MaxSupportedTextures;
+		//! Maxmimum texture layers supported by the engine
+		u8 MaxTextureUnits;
+		//! Maximum hardware lights supported
+		u8 MaxLights;
+		//! Maximal Anisotropy
+		u8 MaxAnisotropy;
+		//! Number of user clipplanes
+		u8 MaxUserClipPlanes;
+		//! Number of auxiliary buffers
+		u8 MaxAuxBuffers;
+		//! Number of rendertargets available as MRTs
+		u8 MaxMultipleRenderTargets;
+		//! Optimal number of indices per meshbuffer
+		u32 MaxIndices;
+		//! Maximal texture dimension
+		u32 MaxTextureSize;
+		//! Maximal vertices handled by geometry shaders
+		u32 MaxGeometryVerticesOut;
+		//! Maximal LOD Bias
+		f32 MaxTextureLODBias;
+		//! Minimal and maximal supported thickness for lines without smoothing
+		GLfloat DimAliasedLine[2];
+		//! Minimal and maximal supported thickness for points without smoothing
+		GLfloat DimAliasedPoint[2];
+		//! Minimal and maximal supported thickness for lines with smoothing
+		GLfloat DimSmoothedLine[2];
+		//! Minimal and maximal supported thickness for points with smoothing
+		GLfloat DimSmoothedPoint[2];
 
 		//! OpenGL version as Integer: 100*Major+Minor, i.e. 2.1 becomes 201
 		u16 Version;
+		//! GLSL version as Integer: 100*Major+Minor
+		u16 ShaderLanguageVersion;
 
-		//! Maximal texture dimension
-		u32 MaxTextureSize;
+		bool OcclusionQuerySupport;
 
-		//! Maxmimum texture layers supported by the fixed pipeline
-		u8 MaxSupportedTextures;
+		// the global feature array
+		bool FeatureAvailable[IRR_OpenGLES_Feature_Count];
 	};
 
 	}
