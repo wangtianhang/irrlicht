@@ -380,6 +380,12 @@ bool COpenGLESDriver::endScene()
 	return true;
 }
 
+bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture)
+{
+	if (stage >= m_MaxSupportedTextures)
+		return false;
+}
+
 IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,
 	io::IFileSystem* io, CIrrDeviceWin32* device)
 {

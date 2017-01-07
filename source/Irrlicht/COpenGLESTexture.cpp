@@ -17,7 +17,7 @@ namespace irr
 			: ITexture(name), 
 			m_Driver(driver),
 			m_KeepImage(true),
-			m_InternalFormat(GL_RGBA),
+			//m_InternalFormat(GL_RGBA),
 			m_PixelFormat(GL_RGBA),
 			m_PixelType(GL_UNSIGNED_BYTE)
 		{
@@ -31,12 +31,12 @@ namespace irr
 
 			if (m_ImageSize==m_TextureSize)
 			{
-				m_Image = m_Driver->createImage(m_ColorFormat, m_ImageSize);
+				m_Image = m_Driver->createImage(m_imageColorFormat, m_ImageSize);
 				origImage->copyTo(m_Image);
 			}
 			else
 			{
-				m_Image = m_Driver->createImage(m_ColorFormat, m_TextureSize);
+				m_Image = m_Driver->createImage(m_imageColorFormat, m_TextureSize);
 				// scale texture
 				origImage->copyToScaling(m_Image);
 			}
@@ -48,11 +48,11 @@ namespace irr
 			}
 		}
 
-		COpenGLESTexture::COpenGLESTexture(const io::path& name, COpenGLDriver* driver)
+		COpenGLESTexture::COpenGLESTexture(const io::path& name, COpenGLESDriver* driver)
 			: ITexture(name), 
 			m_Driver(driver),
 			m_KeepImage(true),
-			m_InternalFormat(GL_RGBA),
+			//m_InternalFormat(GL_RGBA),
 			m_PixelFormat(GL_RGBA),
 			m_PixelType(GL_UNSIGNED_BYTE)
 		{
@@ -69,37 +69,7 @@ namespace irr
 				m_Image->drop();
 		}
 
-		void COpenGLESTexture::getImageValues( IImage* image )
-		{
-			if (!image)
-			{
-				os::Printer::log("No image for OpenGL texture.", ELL_ERROR);
-				return;
-			}
 
-			m_ImageSize = image->getDimension();
-
-			if ( !m_ImageSize.Width || !m_ImageSize.Height)
-			{
-				os::Printer::log("Invalid size of image for OpenGL Texture.", ELL_ERROR);
-				return;
-			}
-
-			const f32 ratio = (f32)m_ImageSize.Width/(f32)m_ImageSize.Height;
-			if ((m_ImageSize.Width>m_Driver->m_MaxTextureSize) && (ratio >= 1.0f))
-			{
-				m_ImageSize.Width = m_Driver->m_MaxTextureSize;
-				m_ImageSize.Height = (u32)(m_Driver->m_MaxTextureSize/ratio);
-			}
-			else if (m_ImageSize.Height>m_Driver->m_MaxTextureSize)
-			{
-				m_ImageSize.Height = m_Driver->m_MaxTextureSize;
-				m_ImageSize.Width = (u32)(m_Driver->m_MaxTextureSize*ratio);
-			}
-			m_TextureSize=m_ImageSize.getOptimalSize(!m_Driver->queryFeature(EVDF_TEXTURE_NPOT));
-
-			m_ColorFormat = getBestColorFormat(image->getColorFormat());
-		}
 
 		ECOLOR_FORMAT COpenGLESTexture::getBestColorFormat(ECOLOR_FORMAT format)
 		{
@@ -143,13 +113,13 @@ namespace irr
 			return destFormat;
 		}
 
-		GLint COpenGLESTexture::getOpenGLFormatAndParametersFromColorFormat(ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type)
+		void COpenGLESTexture::getOpenGLFormatAndParametersFromColorFormat(ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type)
 		{
 			// default
 			filtering = GL_LINEAR;
 			colorformat = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
-			GLenum internalformat = GL_RGBA;
+			//GLenum internalformat = GL_RGBA;
 
 			switch(format)
 			{
@@ -173,7 +143,7 @@ namespace irr
 					colorformat=GL_RGBA;
 					if (m_Driver->m_Version > 101)
 						type=GL_UNSIGNED_INT;
-					internalformat =  GL_RGBA;
+					//internalformat =  GL_RGBA;
 					break;
 				}
 
@@ -217,11 +187,43 @@ namespace irr
 			default:
 				{
 					os::Printer::log("Unsupported texture format", ELL_ERROR);
-					internalformat =  GL_RGBA;
+					//internalformat =  GL_RGBA;
  				}
 			}
 
-			return internalformat;
+			//return internalformat;
+		}
+
+		void COpenGLESTexture::getImageValues( IImage* image )
+		{
+			if (!image)
+			{
+				os::Printer::log("No image for OpenGL texture.", ELL_ERROR);
+				return;
+			}
+
+			m_ImageSize = image->getDimension();
+
+			if ( !m_ImageSize.Width || !m_ImageSize.Height)
+			{
+				os::Printer::log("Invalid size of image for OpenGL Texture.", ELL_ERROR);
+				return;
+			}
+
+			const f32 ratio = (f32)m_ImageSize.Width/(f32)m_ImageSize.Height;
+			if ((m_ImageSize.Width>m_Driver->m_MaxTextureSize) && (ratio >= 1.0f))
+			{
+				m_ImageSize.Width = m_Driver->m_MaxTextureSize;
+				m_ImageSize.Height = (u32)(m_Driver->m_MaxTextureSize/ratio);
+			}
+			else if (m_ImageSize.Height>m_Driver->m_MaxTextureSize)
+			{
+				m_ImageSize.Height = m_Driver->m_MaxTextureSize;
+				m_ImageSize.Width = (u32)(m_Driver->m_MaxTextureSize*ratio);
+			}
+			m_TextureSize=m_ImageSize.getOptimalSize(!m_Driver->queryFeature(EVDF_TEXTURE_NPOT));
+
+			m_imageColorFormat = getBestColorFormat(image->getColorFormat());
 		}
 
 		void COpenGLESTexture::uploadTexture(bool newTexture, void* mipmapData, u32 level)
@@ -235,9 +237,11 @@ namespace irr
 			}
 
 			// get correct opengl color data values
-			GLenum oldInternalFormat = m_InternalFormat;
+			//GLenum oldInternalFormat = m_InternalFormat;
 			GLint filtering;
-			m_InternalFormat = getOpenGLFormatAndParametersFromColorFormat(m_ColorFormat, filtering, m_PixelFormat, m_PixelType);
+			getOpenGLFormatAndParametersFromColorFormat(m_imageColorFormat, filtering, m_PixelFormat, m_PixelType);
+
+			
 		}
 
 	}

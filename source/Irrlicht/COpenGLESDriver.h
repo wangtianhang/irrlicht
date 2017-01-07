@@ -44,6 +44,10 @@ namespace video
 		//! presents the rendered scene on the screen, returns false if failed
 		virtual bool endScene();
 
+		//! sets the current Texture
+		//! Returns whether setting was a success or not.
+		bool setActiveTexture(u32 stage, const video::ITexture* texture);
+
 	private:
 		bool genericDriverInit();
 

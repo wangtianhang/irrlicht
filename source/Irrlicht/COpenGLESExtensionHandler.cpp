@@ -11,7 +11,8 @@ namespace irr
 	namespace video
 	{
 		COpenGLESExtensionHandler::COpenGLESExtensionHandler():
-			m_MaxTextureSize(1)
+			m_MaxTextureSize(1),
+			m_MaxSupportedTextures(0)
 		{
 
 		}
@@ -28,6 +29,11 @@ namespace irr
 			GLint num=0;
 			glGetIntegerv(GL_MAX_TEXTURE_SIZE, &num);
 			m_MaxTextureSize=static_cast<u32>(num);
+
+			num=0;
+			glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &num);
+			m_MaxSupportedTextures=core::max_(m_MaxSupportedTextures,static_cast<u8>(num));
+
 		}
 
 	}

@@ -26,13 +26,13 @@ namespace irr
 
 		protected:
 			//! protected constructor with basic setup, no GL texture name created, for derived classes
-			COpenGLESTexture(const io::path& name, COpenGLDriver* driver);
+			COpenGLESTexture(const io::path& name, COpenGLESDriver* driver);
 
 			//! get the desired color format based on texture creation flags and the input format.
 			ECOLOR_FORMAT getBestColorFormat(ECOLOR_FORMAT format);
 
 			//! Get the OpenGL color format parameters based on the given Irrlicht color format
-			GLint getOpenGLFormatAndParametersFromColorFormat(
+			void getOpenGLFormatAndParametersFromColorFormat(
 				ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type);
 
 			//! get important numbers of the image and hw texture
@@ -49,14 +49,14 @@ namespace irr
 
 			core::dimension2d<u32> m_ImageSize;
 			core::dimension2d<u32> m_TextureSize;
-			ECOLOR_FORMAT m_ColorFormat;
+			ECOLOR_FORMAT m_imageColorFormat;
 
 			GLuint m_TextureName;
 			IImage* m_Image;
 			IImage* m_MipImage;
 			bool m_KeepImage;
 
-			GLint m_InternalFormat;
+			//GLint m_InternalFormat;
 			GLenum m_PixelFormat;
 			GLenum m_PixelType;
 		};

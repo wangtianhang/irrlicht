@@ -1,10 +1,11 @@
-﻿生成启动时间为 2017/1/7 14:14:36。
+﻿生成启动时间为 2017/1/7 17:55:50。
      1>项目“F:\gitHub\irrlicht\irrlicht\source\Irrlicht\Irrlicht10.0.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在对“obj\Debug\Irrlicht.unsuccessfulbuild”执行 Touch 任务。
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /Izlib /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D IRRLICHT_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _ITERATOR_DEBUG_LEVEL=0 /Gm- /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt COpenGLESTexture.cpp
-         COpenGLESTexture.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /Izlib /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D IRRLICHT_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _ITERATOR_DEBUG_LEVEL=0 /Gm- /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt COpenGLESDriver.cpp
+         COpenGLESDriver.cpp
+     1>f:\github\irrlicht\irrlicht\source\irrlicht\copenglesdriver.cpp(387): warning C4715: “irr::video::COpenGLESDriver::setActiveTexture”: 不是所有的控件路径都返回值
          所有输出均为最新。
        ResourceCompile:
          所有输出均为最新。
@@ -285,4 +286,4 @@
 
 生成成功。
 
-已用时间 00:00:01.22
+已用时间 00:00:01.20

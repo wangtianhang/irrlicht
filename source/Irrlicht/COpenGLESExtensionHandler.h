@@ -35,6 +35,9 @@ namespace irr
 
 		//! Maximal texture dimension
 		u32 m_MaxTextureSize;
+
+		//! Maxmimum texture layers supported by the fixed pipeline
+		u8 m_MaxSupportedTextures;
 	};
 
 	}
