@@ -1,12 +1,12 @@
-﻿生成启动时间为 2017/1/7 19:39:21。
+﻿生成启动时间为 2017/1/7 21:03:29。
      1>项目“F:\gitHub\irrlicht\irrlicht\source\Irrlicht\Irrlicht10.0.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“obj\Debug\Irrlicht.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /Izlib /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D IRRLICHT_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _ITERATOR_DEBUG_LEVEL=0 /Gm- /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt COpenGLDriver.cpp COpenGLESDriver.cpp COpenGLESTexture.cpp COpenGLNormalMapRenderer.cpp COpenGLParallaxMapRenderer.cpp COpenGLSLMaterialRenderer.cpp COpenGLShaderMaterialRenderer.cpp COpenGLTexture.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\include /Izlib /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D IRRLICHT_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _ITERATOR_DEBUG_LEVEL=0 /Gm- /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt COpenGLDriver.cpp COpenGLESExtensionHandler.cpp COpenGLExtensionHandler.cpp COpenGLNormalMapRenderer.cpp COpenGLParallaxMapRenderer.cpp COpenGLSLMaterialRenderer.cpp COpenGLShaderMaterialRenderer.cpp COpenGLTexture.cpp
          COpenGLDriver.cpp
-         COpenGLESDriver.cpp
-         COpenGLESTexture.cpp
+         COpenGLESExtensionHandler.cpp
+         COpenGLExtensionHandler.cpp
          COpenGLNormalMapRenderer.cpp
          COpenGLParallaxMapRenderer.cpp
          COpenGLSLMaterialRenderer.cpp
@@ -280,7 +280,6 @@
          obj\Debug\CGUIToolBar.obj
          obj\Debug\CGUITreeView.obj
          obj\Debug\CGUIWindow.obj /MACHINE:I386 
-            正在创建库 ..\..\lib\Win32-visualstudio\Irrlicht.lib 和对象 ..\..\lib\Win32-visualstudio\Irrlicht.exp
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"obj\Debug\Irrlicht.dll.embed.manifest" /manifest obj\Debug\Irrlicht.dll.intermediate.manifest
          所有输出均为最新。
@@ -294,4 +293,4 @@
 
 生成成功。
 
-已用时间 00:00:04.67
+已用时间 00:00:03.79

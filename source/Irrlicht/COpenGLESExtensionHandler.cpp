@@ -34,14 +34,11 @@ namespace irr
 
 		void COpenGLESExtensionHandler::initExtensions(bool stencilBuffer)
 		{
-			const f32 ogl_ver = core::fast_atof(reinterpret_cast<const c8*>(glGetString(GL_VERSION)));
-			Version = static_cast<u16>(core::floor32(ogl_ver)*100+core::round32(core::fract(ogl_ver)*10.0f));
-			if ( Version >= 102)
-				os::Printer::log("OpenGL driver version is 1.2 or better.", ELL_INFORMATION);
-			else
-				os::Printer::log("OpenGL driver version is not 1.2 or better.", ELL_WARNING);
+
 
 			StencilBuffer=stencilBuffer;
+			MultiTextureExtension = true;
+			TextureCompressionExtension = true;
 
 			int num = 0;
 
@@ -57,11 +54,35 @@ namespace irr
 
 			MaxLights=static_cast<u8>(4);
 
+			MaxAnisotropy = static_cast<u8>(1);
+
+			MaxUserClipPlanes=static_cast<u8>(4);
+
+			MaxAuxBuffers = static_cast<u8>(4);
+
+			MaxMultipleRenderTargets = static_cast<u8>(1);
+
+			MaxIndices = 65535;
+
 			glGetIntegerv(GL_MAX_TEXTURE_SIZE, &num);
 			MaxTextureSize=static_cast<u32>(num);
 
+			MaxGeometryVerticesOut = 0;
+			MaxTextureLODBias = 0;
+
 			glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, DimAliasedLine);
 			glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, DimAliasedPoint);
+
+			const f32 ogl_ver = core::fast_atof(reinterpret_cast<const c8*>(glGetString(GL_VERSION)));
+			Version = static_cast<u16>(core::floor32(ogl_ver)*100+core::round32(core::fract(ogl_ver)*10.0f));
+			if ( Version >= 102)
+				os::Printer::log("OpenGL driver version is 1.2 or better.", ELL_INFORMATION);
+			else
+				os::Printer::log("OpenGL driver version is not 1.2 or better.", ELL_WARNING);
+
+			const GLubyte* shaderVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+			const f32 sl_ver = core::fast_atof(reinterpret_cast<const c8*>(shaderVersion));
+			ShaderLanguageVersion = static_cast<u16>(core::floor32(sl_ver)*100+core::round32(core::fract(sl_ver)*10.0f));
 
 			OcclusionQuerySupport=false;
 
@@ -83,7 +104,7 @@ namespace irr
 				return true;
 			case EVDF_MIP_MAP_AUTO_UPDATE:
 				//return FeatureAvailable[IRR_SGIS_generate_mipmap] || FeatureAvailable[IRR_EXT_framebuffer_object] || FeatureAvailable[IRR_ARB_framebuffer_object];
-				return true;
+				return false;
 			case EVDF_STENCIL_BUFFER:
 				return StencilBuffer;
 			case EVDF_VERTEX_SHADER_1_1:
@@ -122,7 +143,7 @@ namespace irr
 				return true;
 			case EVDF_GEOMETRY_SHADER:
 				//return FeatureAvailable[IRR_ARB_geometry_shader4] || FeatureAvailable[IRR_EXT_geometry_shader4] || FeatureAvailable[IRR_NV_geometry_program4] || FeatureAvailable[IRR_NV_geometry_shader4];
-				return true;
+				return false;
 			case EVDF_MULTIPLE_RENDER_TARGETS:
 				//return FeatureAvailable[IRR_ARB_draw_buffers] || FeatureAvailable[IRR_ATI_draw_buffers];
 				return true;
@@ -135,7 +156,7 @@ namespace irr
 				return true;
 			case EVDF_OCCLUSION_QUERY:
 				//return FeatureAvailable[IRR_ARB_occlusion_query] && OcclusionQuerySupport;
-				return true;
+				return false;
 			case EVDF_POLYGON_OFFSET:
 				// both features supported with OpenGL 1.1
 				return Version>=110;
@@ -145,6 +166,8 @@ namespace irr
 				return true;
 			case EVDF_TEXTURE_MATRIX:
 				return true;
+			case EVDF_CG:
+				return false;
 			default:
 				return false;
 			};
