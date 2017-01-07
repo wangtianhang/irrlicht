@@ -25,6 +25,12 @@ namespace irr
 			//! destructor
 			virtual ~COpenGLESTexture();
 
+			//! lock function
+			virtual void* lock(E_TEXTURE_LOCK_MODE mode=ETLM_READ_WRITE, u32 mipmapLevel=0);
+
+			//! unlock function
+			virtual void unlock();
+
 			//! return open gl texture name
 			GLuint getOpenGLTextureName() const;
 
@@ -66,9 +72,12 @@ namespace irr
 			GLenum PixelFormat;
 			GLenum PixelType;
 
+			u8 MipLevelStored;
 			bool HasMipMaps;
 			bool MipmapLegacyMode;
+			bool IsRenderTarget;
 			bool AutomaticMipmapUpdate;
+			bool ReadOnlyLock;
 			bool KeepImage;
 		};
 	}
