@@ -994,6 +994,7 @@
     <ClInclude Include="CMeshCache.h" />
     <ClInclude Include="CMeshManipulator.h" />
     <ClInclude Include="COpenGLESDriver.h" />
+    <ClInclude Include="COpenGLESExtensionHandler.h" />
     <ClInclude Include="COpenGLESGLSLMaterialRenderer.h" />
     <ClInclude Include="COpenGLESMaterialRenderer.h" />
     <ClInclude Include="COpenGLESNormalMapRender.h" />
@@ -1214,6 +1215,7 @@
     <ClCompile Include="CMeshCache.cpp" />
     <ClCompile Include="CMeshManipulator.cpp" />
     <ClCompile Include="COpenGLESDriver.cpp" />
+    <ClCompile Include="COpenGLESExtensionHandler.cpp" />
     <ClCompile Include="COpenGLESGLSLMaterialRenderer.cpp" />
     <ClCompile Include="COpenGLESNormalMapRender.cpp" />
     <ClCompile Include="COpenGLESParallaxMapRenderer.cpp" />

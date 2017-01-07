@@ -1219,6 +1219,9 @@
     <ClInclude Include="COpenGLESTexture.h">
       <Filter>Irrlicht\video\OpenGLES</Filter>
     </ClInclude>
+    <ClInclude Include="COpenGLESExtensionHandler.h">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\changes.txt">
@@ -2001,6 +2004,9 @@
       <Filter>Irrlicht\video\OpenGLES</Filter>
     </ClCompile>
     <ClCompile Include="COpenGLESTexture.cpp">
+      <Filter>Irrlicht\video\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLESExtensionHandler.cpp">
       <Filter>Irrlicht\video\OpenGLES</Filter>
     </ClCompile>
   </ItemGroup>

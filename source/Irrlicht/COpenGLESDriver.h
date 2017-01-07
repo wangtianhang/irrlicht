@@ -1,7 +1,7 @@
 #ifndef __C_VIDEO_OPEN_GLES_H_INCLUDED__
 #define __C_VIDEO_OPEN_GLES_H_INCLUDED__
 
-#include <Windows.h>
+//#include <Windows.h>
 
 #include "IrrCompileConfig.h"
 

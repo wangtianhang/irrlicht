@@ -11,21 +11,6 @@ namespace irr
 namespace video
 {
 
-IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,
-	io::IFileSystem* io, CIrrDeviceWin32* device)
-{
-	COpenGLESDriver* ogl =  new COpenGLESDriver(params, io, device);
-	if (!ogl->initDriver(device))
-	{
-		ogl->drop();
-		ogl = 0;
-	}
-	return ogl;
-}
-
-
-
-
 /*!*********************************************************************************************************************
 \param		deviceContext               The device context used by the application
 \param[out]	eglDisplay				    EGLDisplay created from deviceContext
@@ -383,7 +368,17 @@ bool COpenGLESDriver::endScene()
 	return true;
 }
 
-
+IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,
+	io::IFileSystem* io, CIrrDeviceWin32* device)
+{
+	COpenGLESDriver* ogl =  new COpenGLESDriver(params, io, device);
+	if (!ogl->initDriver(device))
+	{
+		ogl->drop();
+		ogl = 0;
+	}
+	return ogl;
+}
 
 
 
