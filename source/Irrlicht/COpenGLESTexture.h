@@ -24,6 +24,9 @@ namespace irr
 			//! destructor
 			virtual ~COpenGLESTexture();
 
+			//! return open gl texture name
+			GLuint getOpenGLTextureName() const;
+
 		protected:
 			//! protected constructor with basic setup, no GL texture name created, for derived classes
 			COpenGLESTexture(const io::path& name, COpenGLESDriver* driver);
@@ -43,6 +46,8 @@ namespace irr
 			\param mipmapData Pointer to raw mipmap data, including all necessary mip levels, in the same format as the main texture image.
 			\param mipLevel If set to non-zero, only that specific miplevel is updated, using the MipImage member. */
 			void uploadTexture(bool newTexture=false, void* mipmapData=0, u32 mipLevel=0);
+
+
 
 			COpenGLESDriver* Driver;
 			bool HasMipMaps;

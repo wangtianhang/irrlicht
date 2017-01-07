@@ -69,7 +69,10 @@ namespace irr
 				Image->drop();
 		}
 
-
+		GLuint COpenGLESTexture::getOpenGLTextureName() const
+		{
+			return TextureName;
+		}
 
 		ECOLOR_FORMAT COpenGLESTexture::getBestColorFormat(ECOLOR_FORMAT format)
 		{

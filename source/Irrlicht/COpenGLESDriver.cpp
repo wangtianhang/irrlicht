@@ -385,6 +385,34 @@ bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture
 	if (stage >= MaxSupportedTextures)
 		return false;
 
+	if (CurrentTexture[stage]==texture)
+		return true;
+
+	glActiveTexture(stage);
+
+	CurrentTexture.set(stage,texture);
+
+	if (!texture)
+	{
+		glDisable(GL_TEXTURE_2D);
+		return true;
+	}
+	else
+	{
+		if (texture->getDriverType() != EDT_OPENGL)
+		{
+			glDisable(GL_TEXTURE_2D);
+			CurrentTexture.set(stage, 0);
+			os::Printer::log("Fatal Error: Tried to set a texture not owned by this driver.", ELL_ERROR);
+			return false;
+		}
+
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D,
+			static_cast<const COpenGLESTexture*>(texture)->getOpenGLTextureName());
+	}
+	return true;
+
 	return false;
 }
 
