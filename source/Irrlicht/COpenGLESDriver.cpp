@@ -435,6 +435,45 @@ bool COpenGLESDriver::testGLError()
 	return true;
 }
 
+bool COpenGLESDriver::disableTextures( u32 fromStage/*=0*/ )
+{
+	bool result=true;
+	for (u32 i=fromStage; i<MaxSupportedTextures; ++i)
+		result &= setActiveTexture(i, 0);
+	return result;
+}
+
+void COpenGLESDriver::setBasicRenderStates( const SMaterial& material, const SMaterial& lastmaterial, bool resetAllRenderStates )
+{
+	if (resetAllRenderStates ||
+		lastmaterial.ColorMaterial != material.ColorMaterial)
+	{
+		switch (material.ColorMaterial)
+		{
+		case ECM_NONE:
+			//glDisable(GL_COLOR_MATERIAL);
+			break;
+		case ECM_DIFFUSE:
+			//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
+			break;
+		case ECM_AMBIENT:
+			//glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+			break;
+		case ECM_EMISSIVE:
+			//glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
+			break;
+		case ECM_SPECULAR:
+			//glColorMaterial(GL_FRONT_AND_BACK, GL_SPECULAR);
+			break;
+		case ECM_DIFFUSE_AND_AMBIENT:
+			//glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+			break;
+		}
+// 		if (material.ColorMaterial != ECM_NONE)
+// 			glEnable(GL_COLOR_MATERIAL);
+	}
+}
+
 IVideoDriver* createOpenGLESDriver(const SIrrlichtCreationParameters& params,
 	io::IFileSystem* io, CIrrDeviceWin32* device)
 {

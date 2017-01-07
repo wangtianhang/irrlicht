@@ -34,6 +34,20 @@ namespace video
 
 		COpenGLESMaterialRenderer_SOLID(video::COpenGLESDriver* d)
 			: COpenGLESMaterialRenderer(d) {}
+
+		virtual void OnSetMaterial(const SMaterial& material, const SMaterial& lastMaterial,
+			bool resetAllRenderstates, IMaterialRendererServices* services)
+		{
+			Driver->disableTextures(1);
+			Driver->setBasicRenderStates(material, lastMaterial, resetAllRenderstates);
+
+			if (resetAllRenderstates || (material.MaterialType != lastMaterial.MaterialType))
+			{
+				// thanks to Murphy, the following line removed some
+				// bugs with several OpenGL implementations.
+				//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			}
+		}
 	};
 
 	//! Generic Texture Blend
