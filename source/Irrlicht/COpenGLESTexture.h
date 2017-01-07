@@ -6,9 +6,9 @@
 
 #include "IrrCompileConfig.h"
 
-#define GL_GLEXT_PROTOTYPES
-#include "opengles/EGL/egl.h"
-#include "opengles/GLES2/gl2.h"
+// #define GL_GLEXT_PROTOTYPES
+// #include "opengles/EGL/egl.h"
+// #include "opengles/GLES2/gl2.h"
 
 namespace irr
 {
@@ -28,10 +28,16 @@ namespace irr
 
 			//! get important numbers of the image and hw texture
 			void getImageValues(IImage* image);
+			//! get the desired color format based on texture creation flags and the input format.
+			ECOLOR_FORMAT getBestColorFormat(ECOLOR_FORMAT format);
 
 
 			COpenGLESDriver* m_Driver;
 			bool m_HasMipMaps;
+
+			core::dimension2d<u32> m_ImageSize;
+			core::dimension2d<u32> m_TextureSize;
+			ECOLOR_FORMAT m_ColorFormat;
 		};
 	}
 }

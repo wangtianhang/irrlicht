@@ -11,16 +11,9 @@
 #include "CNullDriver.h"
 #include "IMaterialRendererServices.h"
 
-#define GL_GLEXT_PROTOTYPES
-#include "opengles/EGL/egl.h"
-#include "opengles/GLES2/gl2.h"
+#include "COpenGLESExtensionHandler.h"
 
 //#include "SIrrCreationParameters.h"
-
-#ifdef _MSC_VER
-#pragma comment(lib, "opengles/x86_32/libEGL.lib")
-#pragma comment(lib, "opengles/x86_32/libGLESv2.lib")
-#endif
 
 namespace irr
 {
@@ -33,7 +26,7 @@ namespace irr
 namespace video
 {
 
-	class COpenGLESDriver : public CNullDriver
+	class COpenGLESDriver : public CNullDriver, public COpenGLESExtensionHandler
 	{
 	public:
 		COpenGLESDriver(const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device);

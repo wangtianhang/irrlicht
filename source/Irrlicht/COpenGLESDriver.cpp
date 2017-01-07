@@ -1,8 +1,15 @@
 
 #include "COpenGLESDriver.h"
-#include "CIrrDeviceWin32.h"
 
+#include "CNullDriver.h"
+
+//#include "CIrrDeviceWin32.h"
+#include "COpenGLESTexture.h"
 #include "COpenGLESMaterialRenderer.h"
+#include "COpenGLESShaderMaterialRenderer.h"
+#include "COpenGLESGLSLMaterialRenderer.h"
+#include "COpenGLESNormalMapRender.h"
+#include "COpenGLESParallaxMapRenderer.h"
 
 #include "os.h"
 
@@ -221,10 +228,13 @@ void releaseWindowAndDisplay(HWND nativeWindow, HDC deviceContext)
 }
 
 COpenGLESDriver::COpenGLESDriver( const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device )
-	: CNullDriver(io, params.WindowSize), 
+	: CNullDriver(io, params.WindowSize), COpenGLESExtensionHandler(),
 	m_Params(params), 
+	m_HDc(0),
+	m_Window(static_cast<HWND>(params.WindowId)),
 	m_DeviceType(EIDT_WIN32),
-	m_Window(static_cast<HWND>(params.WindowId))
+	m_eglDisplay(NULL),
+	m_eglSurface(NULL)
 {
 #ifdef _DEBUG
 	setDebugName("COpenGLDriver");
@@ -341,6 +351,8 @@ void COpenGLESDriver::createMaterialRenderers()
 
 bool COpenGLESDriver::genericDriverInit()
 {
+	initExtensions(m_Params.Stencilbuffer);
+
 	createMaterialRenderers();
 
 	return true;
