@@ -30,6 +30,9 @@ namespace irr
 		// deferred initialization
 		void initExtensions(bool stencilBuffer);
 
+		//! OpenGL version as Integer: 100*Major+Minor, i.e. 2.1 becomes 201
+		u16 m_Version;
+
 		//! Maximal texture dimension
 		u32 m_MaxTextureSize;
 	};

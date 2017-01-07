@@ -14,7 +14,12 @@ namespace irr
 	namespace video
 	{
 		COpenGLESTexture::COpenGLESTexture( IImage* origImage, const io::path& name, void* mipmapData/*=0*/, COpenGLESDriver* driver/*=0*/ )
-			: ITexture(name), m_Driver(driver)
+			: ITexture(name), 
+			m_Driver(driver),
+			m_KeepImage(true),
+			m_InternalFormat(GL_RGBA),
+			m_PixelFormat(GL_RGBA),
+			m_PixelType(GL_UNSIGNED_BYTE)
 		{
 #ifdef _DEBUG
 			setDebugName("COpenGLTexture");
@@ -22,12 +27,33 @@ namespace irr
 			m_HasMipMaps = m_Driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
 			getImageValues(origImage);
 
-			//glGenTextures(1, &TextureName);
+			glGenTextures(1, &m_TextureName);
+
+			if (m_ImageSize==m_TextureSize)
+			{
+				m_Image = m_Driver->createImage(m_ColorFormat, m_ImageSize);
+				origImage->copyTo(m_Image);
+			}
+			else
+			{
+				m_Image = m_Driver->createImage(m_ColorFormat, m_TextureSize);
+				// scale texture
+				origImage->copyToScaling(m_Image);
+			}
+			uploadTexture(true, mipmapData);
+			if (!m_KeepImage)
+			{
+				m_Image->drop();
+				m_Image=0;
+			}
 		}
 
 		COpenGLESTexture::~COpenGLESTexture()
 		{
-
+			if (m_TextureName)
+				glDeleteTextures(1, &m_TextureName);
+			if (m_Image)
+				m_Image->drop();
 		}
 
 		void COpenGLESTexture::getImageValues( IImage* image )
@@ -102,6 +128,103 @@ namespace irr
 				}
 			}
 			return destFormat;
+		}
+
+		GLint COpenGLESTexture::getOpenGLFormatAndParametersFromColorFormat(ECOLOR_FORMAT format, GLint& filtering, GLenum& colorformat, GLenum& type)
+		{
+			// default
+			filtering = GL_LINEAR;
+			colorformat = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			GLenum internalformat = GL_RGBA;
+
+			switch(format)
+			{
+// 			case ECF_A1R5G5B5:
+// 				colorformat=GL_BGRA_EXT;
+// 				type=GL_UNSIGNED_SHORT_1_5_5_5_REV;
+// 				internalformat =  GL_RGBA;
+// 				break;
+// 			case ECF_R5G6B5:
+// 				colorformat=GL_RGB;
+// 				type=GL_UNSIGNED_SHORT_5_6_5;
+// 				internalformat =  GL_RGB;
+// 				break;
+// 			case ECF_R8G8B8:
+// 				colorformat=GL_BGR;
+// 				type=GL_UNSIGNED_BYTE;
+// 				internalformat =  GL_RGB;
+// 				break;
+			case ECF_A8R8G8B8:
+				{
+					colorformat=GL_RGBA;
+					if (m_Driver->m_Version > 101)
+						type=GL_UNSIGNED_INT;
+					internalformat =  GL_RGBA;
+					break;
+				}
+
+				// Floating Point texture formats. Thanks to Patryk "Nadro" Nadrowski.
+// 			case ECF_R16F:
+// 				{
+// 					m_ColorFormat = ECF_A8R8G8B8;
+// 					internalformat =  GL_RGB8;
+// 				}
+// 				break;
+// 			case ECF_G16R16F:
+// 				{
+// 					m_ColorFormat = ECF_A8R8G8B8;
+// 					internalformat =  GL_RGB8;
+// 				}
+// 				break;
+// 			case ECF_A16B16G16R16F:
+// 				{
+// 					m_ColorFormat = ECF_A8R8G8B8;
+// 					internalformat =  GL_RGBA8;
+// 				}
+// 				break;
+// 			case ECF_R32F:
+// 				{
+// 					m_ColorFormat = ECF_A8R8G8B8;
+// 					internalformat =  GL_RGB8;
+// 				}
+// 				break;
+// 			case ECF_G32R32F:
+// 				{
+// 					m_ColorFormat = ECF_A8R8G8B8;
+// 					internalformat =  GL_RGB8;
+// 				}
+// 				break;
+// 			case ECF_A32B32G32R32F:
+// 				{
+// 					m_ColorFormat = ECF_A8R8G8B8;
+// 					internalformat =  GL_RGBA8;
+// 				}
+// 				break;
+			default:
+				{
+					os::Printer::log("Unsupported texture format", ELL_ERROR);
+					internalformat =  GL_RGBA;
+ 				}
+			}
+
+			return internalformat;
+		}
+
+		void COpenGLESTexture::uploadTexture(bool newTexture, void* mipmapData, u32 level)
+		{
+			// check which image needs to be uploaded
+			IImage* image = level?m_MipImage:m_Image;
+			if (!image)
+			{
+				os::Printer::log("No image for OpenGL texture to upload", ELL_ERROR);
+				return;
+			}
+
+			// get correct opengl color data values
+			GLenum oldInternalFormat = m_InternalFormat;
+			GLint filtering;
+			m_InternalFormat = getOpenGLFormatAndParametersFromColorFormat(m_ColorFormat, filtering, m_PixelFormat, m_PixelType);
 		}
 
 	}

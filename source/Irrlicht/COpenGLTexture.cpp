@@ -136,6 +136,8 @@ GLint COpenGLTexture::getOpenGLFormatAndParametersFromColorFormat(ECOLOR_FORMAT 
 	type = GL_UNSIGNED_BYTE;
 	GLenum internalformat = GL_RGBA;
 
+	os::Printer::log("getOpenGLFormatAndParametersFromColorFormat format",  irr::core::stringc(format), ELL_ERROR);
+
 	switch(format)
 	{
 		case ECF_A1R5G5B5:

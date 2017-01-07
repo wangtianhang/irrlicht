@@ -1,4 +1,4 @@
-﻿生成启动时间为 2017/1/7 12:35:56。
+﻿生成启动时间为 2017/1/7 14:14:36。
      1>项目“F:\gitHub\irrlicht\irrlicht\source\Irrlicht\Irrlicht10.0.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在对“obj\Debug\Irrlicht.unsuccessfulbuild”执行 Touch 任务。
@@ -285,4 +285,4 @@
 
 生成成功。
 
-已用时间 00:00:01.18
+已用时间 00:00:01.22
