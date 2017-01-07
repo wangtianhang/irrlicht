@@ -17,13 +17,13 @@ namespace video
 	public:
 
 		//! Constructor
-		COpenGLESMaterialRenderer(video::COpenGLESDriver* driver) : m_Driver(driver)
+		COpenGLESMaterialRenderer(video::COpenGLESDriver* driver) : Driver(driver)
 		{
 		}
 
 	protected:
 
-		video::COpenGLESDriver* m_Driver;
+		video::COpenGLESDriver* Driver;
 	};
 
 

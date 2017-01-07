@@ -44,21 +44,21 @@ namespace irr
 			\param mipLevel If set to non-zero, only that specific miplevel is updated, using the MipImage member. */
 			void uploadTexture(bool newTexture=false, void* mipmapData=0, u32 mipLevel=0);
 
-			COpenGLESDriver* m_Driver;
-			bool m_HasMipMaps;
+			COpenGLESDriver* Driver;
+			bool HasMipMaps;
 
-			core::dimension2d<u32> m_ImageSize;
-			core::dimension2d<u32> m_TextureSize;
-			ECOLOR_FORMAT m_imageColorFormat;
+			core::dimension2d<u32> ImageSize;
+			core::dimension2d<u32> TextureSize;
+			ECOLOR_FORMAT ColorFormat;
 
-			GLuint m_TextureName;
-			IImage* m_Image;
-			IImage* m_MipImage;
-			bool m_KeepImage;
+			GLuint TextureName;
+			IImage* Image;
+			IImage* MipImage;
+			bool KeepImage;
 
 			//GLint m_InternalFormat;
-			GLenum m_PixelFormat;
-			GLenum m_PixelType;
+			GLenum PixelFormat;
+			GLenum PixelType;
 		};
 	}
 }

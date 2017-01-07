@@ -15,46 +15,46 @@ namespace irr
 	{
 		COpenGLESTexture::COpenGLESTexture( IImage* origImage, const io::path& name, void* mipmapData/*=0*/, COpenGLESDriver* driver/*=0*/ )
 			: ITexture(name), 
-			m_Driver(driver),
-			m_KeepImage(true),
+			Driver(driver),
+			KeepImage(true),
 			//m_InternalFormat(GL_RGBA),
-			m_PixelFormat(GL_RGBA),
-			m_PixelType(GL_UNSIGNED_BYTE)
+			PixelFormat(GL_RGBA),
+			PixelType(GL_UNSIGNED_BYTE)
 		{
 #ifdef _DEBUG
 			setDebugName("COpenGLTexture");
 #endif
-			m_HasMipMaps = m_Driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
+			HasMipMaps = Driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
 			getImageValues(origImage);
 
-			glGenTextures(1, &m_TextureName);
+			glGenTextures(1, &TextureName);
 
-			if (m_ImageSize==m_TextureSize)
+			if (ImageSize==TextureSize)
 			{
-				m_Image = m_Driver->createImage(m_imageColorFormat, m_ImageSize);
-				origImage->copyTo(m_Image);
+				Image = Driver->createImage(ColorFormat, ImageSize);
+				origImage->copyTo(Image);
 			}
 			else
 			{
-				m_Image = m_Driver->createImage(m_imageColorFormat, m_TextureSize);
+				Image = Driver->createImage(ColorFormat, TextureSize);
 				// scale texture
-				origImage->copyToScaling(m_Image);
+				origImage->copyToScaling(Image);
 			}
 			uploadTexture(true, mipmapData);
-			if (!m_KeepImage)
+			if (!KeepImage)
 			{
-				m_Image->drop();
-				m_Image=0;
+				Image->drop();
+				Image=0;
 			}
 		}
 
 		COpenGLESTexture::COpenGLESTexture(const io::path& name, COpenGLESDriver* driver)
 			: ITexture(name), 
-			m_Driver(driver),
-			m_KeepImage(true),
+			Driver(driver),
+			KeepImage(true),
 			//m_InternalFormat(GL_RGBA),
-			m_PixelFormat(GL_RGBA),
-			m_PixelType(GL_UNSIGNED_BYTE)
+			PixelFormat(GL_RGBA),
+			PixelType(GL_UNSIGNED_BYTE)
 		{
 #ifdef _DEBUG
 			setDebugName("COpenGLTexture");
@@ -63,10 +63,10 @@ namespace irr
 
 		COpenGLESTexture::~COpenGLESTexture()
 		{
-			if (m_TextureName)
-				glDeleteTextures(1, &m_TextureName);
-			if (m_Image)
-				m_Image->drop();
+			if (TextureName)
+				glDeleteTextures(1, &TextureName);
+			if (Image)
+				Image->drop();
 		}
 
 
@@ -77,26 +77,26 @@ namespace irr
 			switch (format)
 			{
 			case ECF_A1R5G5B5:
-				if (!m_Driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT))
+				if (!Driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT))
 					destFormat = ECF_A1R5G5B5;
 				break;
 			case ECF_R5G6B5:
-				if (!m_Driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT))
+				if (!Driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT))
 					destFormat = ECF_A1R5G5B5;
 				break;
 			case ECF_A8R8G8B8:
-				if (m_Driver->getTextureCreationFlag(ETCF_ALWAYS_16_BIT) ||
-					m_Driver->getTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED))
+				if (Driver->getTextureCreationFlag(ETCF_ALWAYS_16_BIT) ||
+					Driver->getTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED))
 					destFormat = ECF_A1R5G5B5;
 				break;
 			case ECF_R8G8B8:
-				if (m_Driver->getTextureCreationFlag(ETCF_ALWAYS_16_BIT) ||
-					m_Driver->getTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED))
+				if (Driver->getTextureCreationFlag(ETCF_ALWAYS_16_BIT) ||
+					Driver->getTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED))
 					destFormat = ECF_A1R5G5B5;
 			default:
 				break;
 			}
-			if (m_Driver->getTextureCreationFlag(ETCF_NO_ALPHA_CHANNEL))
+			if (Driver->getTextureCreationFlag(ETCF_NO_ALPHA_CHANNEL))
 			{
 				switch (destFormat)
 				{
@@ -141,7 +141,7 @@ namespace irr
 			case ECF_A8R8G8B8:
 				{
 					colorformat=GL_RGBA;
-					if (m_Driver->m_Version > 101)
+					if (Driver->Version > 101)
 						type=GL_UNSIGNED_INT;
 					//internalformat =  GL_RGBA;
 					break;
@@ -202,34 +202,34 @@ namespace irr
 				return;
 			}
 
-			m_ImageSize = image->getDimension();
+			ImageSize = image->getDimension();
 
-			if ( !m_ImageSize.Width || !m_ImageSize.Height)
+			if ( !ImageSize.Width || !ImageSize.Height)
 			{
 				os::Printer::log("Invalid size of image for OpenGL Texture.", ELL_ERROR);
 				return;
 			}
 
-			const f32 ratio = (f32)m_ImageSize.Width/(f32)m_ImageSize.Height;
-			if ((m_ImageSize.Width>m_Driver->m_MaxTextureSize) && (ratio >= 1.0f))
+			const f32 ratio = (f32)ImageSize.Width/(f32)ImageSize.Height;
+			if ((ImageSize.Width>Driver->MaxTextureSize) && (ratio >= 1.0f))
 			{
-				m_ImageSize.Width = m_Driver->m_MaxTextureSize;
-				m_ImageSize.Height = (u32)(m_Driver->m_MaxTextureSize/ratio);
+				ImageSize.Width = Driver->MaxTextureSize;
+				ImageSize.Height = (u32)(Driver->MaxTextureSize/ratio);
 			}
-			else if (m_ImageSize.Height>m_Driver->m_MaxTextureSize)
+			else if (ImageSize.Height>Driver->MaxTextureSize)
 			{
-				m_ImageSize.Height = m_Driver->m_MaxTextureSize;
-				m_ImageSize.Width = (u32)(m_Driver->m_MaxTextureSize*ratio);
+				ImageSize.Height = Driver->MaxTextureSize;
+				ImageSize.Width = (u32)(Driver->MaxTextureSize*ratio);
 			}
-			m_TextureSize=m_ImageSize.getOptimalSize(!m_Driver->queryFeature(EVDF_TEXTURE_NPOT));
+			TextureSize=ImageSize.getOptimalSize(!Driver->queryFeature(EVDF_TEXTURE_NPOT));
 
-			m_imageColorFormat = getBestColorFormat(image->getColorFormat());
+			ColorFormat = getBestColorFormat(image->getColorFormat());
 		}
 
 		void COpenGLESTexture::uploadTexture(bool newTexture, void* mipmapData, u32 level)
 		{
 			// check which image needs to be uploaded
-			IImage* image = level?m_MipImage:m_Image;
+			IImage* image = level?MipImage:Image;
 			if (!image)
 			{
 				os::Printer::log("No image for OpenGL texture to upload", ELL_ERROR);
@@ -239,7 +239,7 @@ namespace irr
 			// get correct opengl color data values
 			//GLenum oldInternalFormat = m_InternalFormat;
 			GLint filtering;
-			getOpenGLFormatAndParametersFromColorFormat(m_imageColorFormat, filtering, m_PixelFormat, m_PixelType);
+			getOpenGLFormatAndParametersFromColorFormat(ColorFormat, filtering, PixelFormat, PixelType);
 
 			
 		}

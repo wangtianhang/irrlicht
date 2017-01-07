@@ -229,10 +229,10 @@ void releaseWindowAndDisplay(HWND nativeWindow, HDC deviceContext)
 
 COpenGLESDriver::COpenGLESDriver( const SIrrlichtCreationParameters& params, io::IFileSystem* io, CIrrDeviceWin32* device )
 	: CNullDriver(io, params.WindowSize), COpenGLESExtensionHandler(),
-	m_Params(params), 
-	m_HDc(0),
-	m_Window(static_cast<HWND>(params.WindowId)),
-	m_DeviceType(EIDT_WIN32),
+	Params(params), 
+	HDc(0),
+	Window(static_cast<HWND>(params.WindowId)),
+	DeviceType(EIDT_WIN32),
 	m_eglDisplay(NULL),
 	m_eglSurface(NULL)
 {
@@ -243,7 +243,7 @@ COpenGLESDriver::COpenGLESDriver( const SIrrlichtCreationParameters& params, io:
 
 bool COpenGLESDriver::initDriver( CIrrDeviceWin32* device )
 {
-	m_HDc=GetDC(m_Window);
+	HDc=GetDC(Window);
 
 	//HDC	deviceContext = m_HDc;
 
@@ -254,7 +254,7 @@ bool COpenGLESDriver::initDriver( CIrrDeviceWin32* device )
 	EGLContext			eglContext = NULL;
 
 	// Create and Initialize an EGLDisplay from the native display
-	if (!createEGLDisplay(m_HDc, m_eglDisplay))
+	if (!createEGLDisplay(HDc, m_eglDisplay))
 	{
 		return false;
 	}
@@ -266,13 +266,13 @@ bool COpenGLESDriver::initDriver( CIrrDeviceWin32* device )
 	}
 
 	// Create an EGLSurface for rendering from the native window
-	if (!createEGLSurface(m_Window, m_eglDisplay, eglConfig, m_eglSurface)) 
+	if (!createEGLSurface(Window, m_eglDisplay, eglConfig, m_eglSurface)) 
 	{ 
 		return false; 
 	}
 
 	// Setup the EGL Context from the other EGL constructs created so far, so that the application is ready to submit OpenGL ES commands
-	if (!setupEGLContext(m_eglDisplay, eglConfig, m_eglSurface, eglContext, m_Window)) 
+	if (!setupEGLContext(m_eglDisplay, eglConfig, m_eglSurface, eglContext, Window)) 
 	{
 		return false;
 	}
@@ -296,7 +296,7 @@ COpenGLESDriver::~COpenGLESDriver()
 	// Release the EGL State
 	releaseEGLState(m_eglDisplay);
 	// Release the windowing system resources
-	releaseWindowAndDisplay(m_Window, m_HDc);
+	releaseWindowAndDisplay(Window, HDc);
 }
 
 void COpenGLESDriver::createMaterialRenderers()
@@ -351,7 +351,7 @@ void COpenGLESDriver::createMaterialRenderers()
 
 bool COpenGLESDriver::genericDriverInit()
 {
-	initExtensions(m_Params.Stencilbuffer);
+	initExtensions(Params.Stencilbuffer);
 
 	createMaterialRenderers();
 
@@ -382,7 +382,7 @@ bool COpenGLESDriver::endScene()
 
 bool COpenGLESDriver::setActiveTexture(u32 stage, const video::ITexture* texture)
 {
-	if (stage >= m_MaxSupportedTextures)
+	if (stage >= MaxSupportedTextures)
 		return false;
 
 	return false;

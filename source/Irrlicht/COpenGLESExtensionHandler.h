@@ -42,20 +42,20 @@ namespace irr
 		//! queries the features of the driver, returns true if feature is available
 		bool queryOpenGLESFeature(EOpenGLESFeatures feature) const
 		{
-			return m_FeatureAvailable[feature];
+			return FeatureAvailable[feature];
 		}
 
 		// the global feature array
-		bool m_FeatureAvailable[IRR_OpenGLES_Feature_Count];
+		bool FeatureAvailable[IRR_OpenGLES_Feature_Count];
 
 		//! OpenGL version as Integer: 100*Major+Minor, i.e. 2.1 becomes 201
-		u16 m_Version;
+		u16 Version;
 
 		//! Maximal texture dimension
-		u32 m_MaxTextureSize;
+		u32 MaxTextureSize;
 
 		//! Maxmimum texture layers supported by the fixed pipeline
-		u8 m_MaxSupportedTextures;
+		u8 MaxSupportedTextures;
 	};
 
 	}
