@@ -15,12 +15,21 @@ namespace irr
 	{
 		COpenGLESTexture::COpenGLESTexture( IImage* origImage, const io::path& name, void* mipmapData/*=0*/, COpenGLESDriver* driver/*=0*/ )
 			: ITexture(name), 
+			ColorFormat(ECF_A8R8G8B8),
 			Driver(driver),
-			KeepImage(true),
-			//m_InternalFormat(GL_RGBA),
+			Image(0),
+			MipImage(0),
+			TextureName(0),
+			InternalFormat(GL_RGBA),
 			PixelFormat(GL_RGBA),
 			PixelType(GL_UNSIGNED_BYTE),
-			MipmapLegacyMode(false)
+			MipLevelStored(0),
+			MipmapLegacyMode(false),
+			IsRenderTarget(false),
+			AutomaticMipmapUpdate(false),
+			ReadOnlyLock(false),
+			KeepImage(true)
+			//m_InternalFormat(GL_RGBA),
 		{
 #ifdef _DEBUG
 			setDebugName("COpenGLTexture");
@@ -51,11 +60,20 @@ namespace irr
 
 		COpenGLESTexture::COpenGLESTexture(const io::path& name, COpenGLESDriver* driver)
 			: ITexture(name), 
+			ColorFormat(ECF_A8R8G8B8),
 			Driver(driver),
-			KeepImage(true),
-			//m_InternalFormat(GL_RGBA),
+			Image(0),
+			MipImage(0),
+			TextureName(0),
+			InternalFormat(GL_RGBA),
 			PixelFormat(GL_RGBA),
-			PixelType(GL_UNSIGNED_BYTE)
+			PixelType(GL_UNSIGNED_BYTE),
+			MipLevelStored(0),
+			MipmapLegacyMode(false),
+			IsRenderTarget(false),
+			AutomaticMipmapUpdate(false),
+			ReadOnlyLock(false),
+			KeepImage(true)
 		{
 #ifdef _DEBUG
 			setDebugName("COpenGLTexture");
@@ -343,88 +361,179 @@ namespace irr
 				AutomaticMipmapUpdate=false;
 			}
 
-			// if data not available or might have changed on GPU download it
-			if (!image || IsRenderTarget)
-			{
-				// prepare the data storage if necessary
-				if (!image)
-				{
-					if (mipmapLevel)
-					{
-						u32 i=0;
-						u32 width = TextureSize.Width;
-						u32 height = TextureSize.Height;
-						do
-						{
-							if (width>1)
-								width>>=1;
-							if (height>1)
-								height>>=1;
-							++i;
-						}
-						while (i != mipmapLevel);
-						MipImage = image = Driver->createImage(ECF_A8R8G8B8, core::dimension2du(width,height));
-					}
-					else
-						Image = image = Driver->createImage(ECF_A8R8G8B8, ImageSize);
-					ColorFormat = ECF_A8R8G8B8;
-				}
-				if (!image)
-					return 0;
-
-				if (mode != ETLM_WRITE_ONLY)
-				{
-					u8* pixels = static_cast<u8*>(image->lock());
-					if (!pixels)
-						return 0;
-
-					// we need to keep the correct texture bound later on
-					GLint tmpTexture;
-					glGetIntegerv(GL_TEXTURE_BINDING_2D, &tmpTexture);
-					glBindTexture(GL_TEXTURE_2D, TextureName);
-
-					// we need to flip textures vertical
-					// however, it seems that this does not hold for mipmap
-					// textures, for unknown reasons.
-
-					// download GPU data as ARGB8 to pixels;
-					glGetTexImage(GL_TEXTURE_2D, mipmapLevel, GL_BGRA_EXT, GL_UNSIGNED_BYTE, pixels);
-
-					if (!mipmapLevel)
-					{
-						{
-							// opengl images are horizontally flipped, so we have to fix that here.
-							const s32 pitch=image->getPitch();
-							u8* p2 = pixels + (image->getDimension().Height - 1) * pitch;
-							u8* tmpBuffer = new u8[pitch];
-							for (u32 i=0; i < image->getDimension().Height; i += 2)
-							{
-								memcpy(tmpBuffer, pixels, pitch);
-								memcpy(pixels, p2, pitch);
-								memcpy(p2, tmpBuffer, pitch);
-								pixels += pitch;
-								p2 -= pitch;
-							}
-							delete [] tmpBuffer;
-						}
-					}
-					image->unlock();
-
-					//reset old bound texture
-					glBindTexture(GL_TEXTURE_2D, tmpTexture);
-				}
-			}
+// 			// if data not available or might have changed on GPU download it
+// 			if (!image || IsRenderTarget)
+// 			{
+// 				// prepare the data storage if necessary
+// 				if (!image)
+// 				{
+// 					if (mipmapLevel)
+// 					{
+// 						u32 i=0;
+// 						u32 width = TextureSize.Width;
+// 						u32 height = TextureSize.Height;
+// 						do
+// 						{
+// 							if (width>1)
+// 								width>>=1;
+// 							if (height>1)
+// 								height>>=1;
+// 							++i;
+// 						}
+// 						while (i != mipmapLevel);
+// 						MipImage = image = Driver->createImage(ECF_A8R8G8B8, core::dimension2du(width,height));
+// 					}
+// 					else
+// 						Image = image = Driver->createImage(ECF_A8R8G8B8, ImageSize);
+// 					ColorFormat = ECF_A8R8G8B8;
+// 				}
+// 				if (!image)
+// 					return 0;
+// 
+// 				if (mode != ETLM_WRITE_ONLY)
+// 				{
+// 					u8* pixels = static_cast<u8*>(image->lock());
+// 					if (!pixels)
+// 						return 0;
+// 
+// 					// we need to keep the correct texture bound later on
+// 					GLint tmpTexture;
+// 					glGetIntegerv(GL_TEXTURE_BINDING_2D, &tmpTexture);
+// 					glBindTexture(GL_TEXTURE_2D, TextureName);
+// 
+// 					// we need to flip textures vertical
+// 					// however, it seems that this does not hold for mipmap
+// 					// textures, for unknown reasons.
+// 
+// 					// download GPU data as ARGB8 to pixels;
+// 					glGetTexImage(GL_TEXTURE_2D, mipmapLevel, GL_BGRA_EXT, GL_UNSIGNED_BYTE, pixels);
+// 
+// 					if (!mipmapLevel)
+// 					{
+// 						{
+// 							// opengl images are horizontally flipped, so we have to fix that here.
+// 							const s32 pitch=image->getPitch();
+// 							u8* p2 = pixels + (image->getDimension().Height - 1) * pitch;
+// 							u8* tmpBuffer = new u8[pitch];
+// 							for (u32 i=0; i < image->getDimension().Height; i += 2)
+// 							{
+// 								memcpy(tmpBuffer, pixels, pitch);
+// 								memcpy(pixels, p2, pitch);
+// 								memcpy(p2, tmpBuffer, pitch);
+// 								pixels += pitch;
+// 								p2 -= pitch;
+// 							}
+// 							delete [] tmpBuffer;
+// 						}
+// 					}
+// 					image->unlock();
+// 
+// 					//reset old bound texture
+// 					glBindTexture(GL_TEXTURE_2D, tmpTexture);
+// 				}
+// 			}
 			return image->lock();
 		}
 
 		void COpenGLESTexture::unlock()
 		{
+			// test if miplevel or main texture was locked
+			IImage* image = MipImage?MipImage:Image;
+			if (!image)
+				return;
+			// unlock image to see changes
+			image->unlock();
+			// copy texture data to GPU
+			if (!ReadOnlyLock)
+				uploadTexture(false, 0, MipLevelStored);
+			ReadOnlyLock = false;
+			// cleanup local image
+			if (MipImage)
+			{
+				MipImage->drop();
+				MipImage=0;
+			}
+			else if (!KeepImage)
+			{
+				Image->drop();
+				Image=0;
+			}
+			// update information
+			if (Image)
+				ColorFormat=Image->getColorFormat();
+			else
+				ColorFormat=ECF_A8R8G8B8;
+		}
 
+
+
+		const core::dimension2d<u32>& COpenGLESTexture::getOriginalSize() const
+		{
+			return ImageSize;
+		}
+
+		const core::dimension2d<u32>& COpenGLESTexture::getSize() const
+		{
+			return TextureSize;
+		}
+
+		irr::video::E_DRIVER_TYPE COpenGLESTexture::getDriverType() const
+		{
+			return EDT_OPENGL_ES;
+		}
+
+		irr::video::ECOLOR_FORMAT COpenGLESTexture::getColorFormat() const
+		{
+			return ColorFormat;
+		}
+
+		irr::u32 COpenGLESTexture::getPitch() const
+		{
+			if (Image)
+				return Image->getPitch();
+			else
+				return 0;
 		}
 
 		GLuint COpenGLESTexture::getOpenGLTextureName() const
 		{
 			return TextureName;
 		}
+
+		bool COpenGLESTexture::hasMipMaps() const
+		{
+			return HasMipMaps;
+		}
+
+		bool COpenGLESTexture::isRenderTarget() const
+		{
+			return IsRenderTarget;
+		}
+
+		void COpenGLESTexture::setIsRenderTarget( bool isTarget )
+		{
+			IsRenderTarget = isTarget;
+		}
+
+		bool COpenGLESTexture::isFrameBufferObject() const
+		{
+			return false;
+		}
+
+		void COpenGLESTexture::bindRTT()
+		{
+
+		}
+
+		void COpenGLESTexture::unbindRTT()
+		{
+			Driver->setActiveTexture(0, this);
+
+			// Copy Our ViewPort To The Texture
+			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, getSize().Width, getSize().Height);
+		}
+
+
+
 	}
 }
